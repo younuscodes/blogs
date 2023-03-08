@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    networks:
+      - mynetwork
+
+  web:
+    build: .
+    restart: always
+    container_name: my-web-server
+    ports:
+      - "8123:8123"
+    depends_on:
+      - mongo
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
